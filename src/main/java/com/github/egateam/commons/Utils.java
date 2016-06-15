@@ -29,11 +29,11 @@ public class Utils {
     }
 
     /**
-     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     * Returns a Map as "chromosome - length" pairs
      *
      * @param file   a File object for chr.size
      * @param remove remove "chr0" from chromosome names
-     * @return a Map<String, Integer>
+     * @return a Map
      * @throws Exception
      */
     public static Map<String, Integer> readSizes(File file, boolean remove) throws Exception {
@@ -56,10 +56,10 @@ public class Utils {
     }
 
     /**
-     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     * Returns a Map as "chromosome - length" pairs
      *
      * @param file a File object for chr.size
-     * @return a Map<String, Integer>
+     * @return a Map
      * @throws Exception
      */
     public static Map<String, Integer> readSizes(File file) throws Exception {
@@ -67,10 +67,10 @@ public class Utils {
     }
 
     /**
-     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     * Returns a Map as "chromosome - length" pairs
      *
      * @param fileName chr.size
-     * @return a Map<String, Integer>
+     * @return a Map
      * @throws Exception
      */
     public static Map<String, Integer> readSizes(String fileName) throws Exception {
@@ -78,10 +78,10 @@ public class Utils {
     }
 
     /**
-     * Returns a List<String> (new lines removed) containing file content
+     * Returns a List (new lines removed) containing file content
      *
      * @param file a File object
-     * @return List<String>
+     * @return List
      * @throws Exception
      */
     public static List<String> readLines(File file) throws Exception {
@@ -99,10 +99,10 @@ public class Utils {
     }
 
     /**
-     * Returns a List<String> (new lines removed) containing file content
+     * Returns a List (new lines removed) containing file content
      *
      * @param fileName the name of input file
-     * @return List<String>
+     * @return List
      * @throws Exception
      */
     public static List<String> readLines(String fileName) throws Exception {
@@ -129,8 +129,8 @@ public class Utils {
     /**
      * Convert values of a Map from runlists to IntSpan objects
      *
-     * @param map Map<String, String>
-     * @return a Map<String, IntSpan>
+     * @param map Map
+     * @return a Map
      * @throws AssertionError
      */
     public static Map<String, IntSpan> toIntSpan(Map<String, String> map) throws AssertionError {
@@ -149,8 +149,8 @@ public class Utils {
     /**
      * Convert values of a Map from IntSpan objects to runlists
      *
-     * @param map Map<String, IntSpan>
-     * @return a Map<String, String>
+     * @param map Map
+     * @return a Map
      * @throws AssertionError
      */
     public static Map<String, String> toRunlist(Map<String, IntSpan> map) throws AssertionError {
