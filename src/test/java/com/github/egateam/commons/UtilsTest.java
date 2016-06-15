@@ -7,6 +7,7 @@
 
 package com.github.egateam.commons;
 
+import com.github.egateam.IntSpan;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +43,17 @@ public class UtilsTest {
 
         Assert.assertTrue(lengthOf.size() == 16);
         Assert.assertTrue(lengthOf.get("II") == 813184);
+
+        File               file = new ExpandResource("chr.sizes").invokeFile();
+        Map<String, Integer> lengthOf2 = Utils.readSizes(file);
+
+        Assert.assertTrue(lengthOf2.size() == 16);
+        Assert.assertTrue(lengthOf2.get("II") == 813184);
     }
 
     @Test
     public void testReadSizesRemove() throws Exception {
-        File                 file = new ExpandResource("chr.chr.sizes").invokeFile();
+        File                 file     = new ExpandResource("chr.chr.sizes").invokeFile();
         Map<String, Integer> lengthOf = Utils.readSizes(file, true);
 
         Assert.assertTrue(lengthOf.size() == 16);
@@ -56,6 +64,11 @@ public class UtilsTest {
     public void testReadLines() throws Exception {
         File         file  = new ExpandResource("chr.sizes").invokeFile();
         List<String> lines = Utils.readLines(file);
+
+        Assert.assertTrue(lines.size() == 16);
+
+        String         fileName  = new ExpandResource("chr.sizes").invoke();
+        lines = Utils.readLines(fileName);
 
         Assert.assertTrue(lines.size() == 16);
     }
@@ -70,6 +83,38 @@ public class UtilsTest {
         Utils.writeLines("stdout", lines);
         Assert.assertEquals(this.stdoutContent.toString().split("\r\n|\r|\n").length, 3, "line count");
         Assert.assertTrue(this.stdoutContent.toString().contains("xyz"), "contents");
+    }
+
+    @Test
+    public void testIntSpanConverters() throws Exception {
+        Map<String, String> singleRunlist = new HashMap<>();
+        singleRunlist.put("II", "327069-327703");
+        singleRunlist.put("VII", "778784-779515,878539-879235");
+
+        // toIntSpan
+        Map<String, IntSpan> singleSet = Utils.toIntSpan(singleRunlist);
+
+        Assert.assertEquals(singleSet.size(), 2);
+
+        for ( Map.Entry<?, ?> entry : singleRunlist.entrySet() ) {
+            String key   = entry.getKey().toString();
+            String value = entry.getValue().toString();
+
+            Assert.assertTrue(singleSet.get(key).toString().equals(value));
+        }
+
+        // toRunlist
+        Map<String, String> singleRunlistAgain = Utils.toRunlist(singleSet);
+
+        Assert.assertEquals(singleRunlistAgain.size(), 2);
+
+        for ( Map.Entry<?, ?> entry : singleRunlist.entrySet() ) {
+            String key   = entry.getKey().toString();
+            String value = entry.getValue().toString();
+
+            Assert.assertTrue(singleRunlistAgain.get(key).equals(value));
+        }
+
     }
 
     @AfterMethod

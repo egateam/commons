@@ -16,12 +16,14 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("WeakerAccess")
 public class ChrRange {
     private String  name;
     private String  chrName;
     private String  chrStrand;
     private Integer chrStart;
     private Integer chrEnd;
+    @SuppressWarnings("CanBeFinal")
     private Map<String, String> others  = new HashMap<>();
     private boolean             isEmpty = true;
 
@@ -72,7 +74,7 @@ public class ChrRange {
         }
     }
 
-    public void decode(String header) throws RuntimeException {
+    private void decode(String header) throws RuntimeException {
         Pattern p = Pattern.compile("(?xi)" +
             "(?:(?<name>[\\w_]+)\\.)?" +
             "(?<chrName>[\\w-]+)" +
@@ -115,7 +117,7 @@ public class ChrRange {
         }
     }
 
-    public String encode(boolean onlyEssential) {
+    private String encode(boolean onlyEssential) {
         String header = "";
 
         if ( name != null ) {

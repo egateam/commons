@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+@SuppressWarnings("WeakerAccess")
 public class ExpandResource {
     private final String value;
 

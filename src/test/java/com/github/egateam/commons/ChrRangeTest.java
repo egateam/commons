@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ChrRangeTest {
     private static class TestData {
-        String header;
+        final String header;
         Map<String, String> expected = new HashMap<>();
 
         TestData(String header, Map<String, String> expected) {
@@ -84,8 +84,8 @@ public class ChrRangeTest {
         };
 
     private static class TestData2 {
-        String   header;
-        ChrRange expected;
+        final String   header;
+        final ChrRange expected;
 
         TestData2(String header, ChrRange expected) {
             this.header = header;
