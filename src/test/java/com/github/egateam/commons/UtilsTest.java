@@ -36,7 +36,7 @@ public class UtilsTest {
 
     @Test
     public void testReadSizes() throws Exception {
-        File                 fileName = new ExpandResource("chr.sizes").invokeFile();
+        String               fileName = new ExpandResource("chr.sizes").invoke();
         Map<String, Integer> lengthOf = Utils.readSizes(fileName);
 
         Assert.assertTrue(lengthOf.size() == 16);
@@ -45,8 +45,8 @@ public class UtilsTest {
 
     @Test
     public void testReadSizesRemove() throws Exception {
-        File                 fileName = new ExpandResource("chr.chr.sizes").invokeFile();
-        Map<String, Integer> lengthOf = Utils.readSizes(fileName, true);
+        File                 file = new ExpandResource("chr.chr.sizes").invokeFile();
+        Map<String, Integer> lengthOf = Utils.readSizes(file, true);
 
         Assert.assertTrue(lengthOf.size() == 16);
         Assert.assertTrue(lengthOf.get("II") == 813184);
