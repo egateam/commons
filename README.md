@@ -1,5 +1,6 @@
 [![Travis](https://img.shields.io/travis/egateam/commons.svg)](https://travis-ci.org/egateam/commons)
 [![Codecov branch](https://img.shields.io/codecov/c/github/egateam/commons/master.svg)](https://codecov.io/github/egateam/commons?branch=master)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.egateam/commons.svg)](http://search.maven.org/#search|ga|1|g%3A%22com.github.egateam%22%20AND%20a%3A%22commons%22)
 
 # NAME
 
