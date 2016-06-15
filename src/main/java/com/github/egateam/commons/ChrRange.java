@@ -117,7 +117,7 @@ public class ChrRange {
         }
     }
 
-    private String encode(boolean onlyEssential) {
+    public String encode(boolean onlyEssential) {
         String header = "";
 
         if ( name != null ) {
