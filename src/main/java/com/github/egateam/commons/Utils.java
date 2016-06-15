@@ -19,6 +19,14 @@ import java.util.Map;
 
 public class Utils {
 
+    /**
+     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     *
+     * @param file chr.size
+     * @param remove remove "chr0" from chromosome names
+     * @return a Map<String, Integer>
+     * @throws Exception
+     */
     public static Map<String, Integer> readSizes(File file, boolean remove) throws Exception {
         HashMap<String, Integer> lengthOf = new HashMap<>();
 
@@ -38,10 +46,23 @@ public class Utils {
         return lengthOf;
     }
 
+    /**
+     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     *
+     * @param file chr.size
+     * @return a Map<String, Integer>
+     * @throws Exception
+     */
     public static Map<String, Integer> readSizes(File file) throws Exception {
         return readSizes(file, false);
     }
 
+    /**
+     * Returns a List<String> (new lines removed) containing file content
+     * @param file the name of input file
+     * @return List<String>
+     * @throws Exception
+     */
     public static List<String> readLines(File file) throws Exception {
         List<String> lines = new ArrayList<>();
 
@@ -56,6 +77,13 @@ public class Utils {
         return lines;
     }
 
+    /**
+     * Write lines (appending new line to each strings) to file or screen
+     *
+     * @param fileName desired output filename. [stdout] for screen
+     * @param lines file contents.
+     * @throws Exception
+     */
     public static void writeLines(String fileName, List<String> lines) throws Exception {
         if ( fileName.equals("stdout") )
             for ( String line : lines ) {
@@ -66,6 +94,13 @@ public class Utils {
         }
     }
 
+    /**
+     * Convert values of a Map from runlists to IntSpan objects
+     *
+     * @param map Map<String, String>
+     * @return a Map<String, IntSpan>
+     * @throws AssertionError
+     */
     public static Map<String, IntSpan> toIntSpan(Map<String, String> map) throws AssertionError {
         Map<String, IntSpan> setOf = new HashMap<>();
 
@@ -79,6 +114,13 @@ public class Utils {
         return setOf;
     }
 
+    /**
+     * Convert values of a Map from IntSpan objects to runlists
+     *
+     * @param map Map<String, IntSpan>
+     * @return a Map<String, String>
+     * @throws AssertionError
+     */
     public static Map<String, String> toRunlist(Map<String, IntSpan> map) throws AssertionError {
         Map<String, String> runlistOf = new HashMap<>();
 
