@@ -44,14 +44,20 @@ public class UtilsTest {
     }
 
     @Test
+    public void testReadSizesRemove() throws Exception {
+        File                 fileName = new ExpandResource("chr.chr.sizes").invokeFile();
+        Map<String, Integer> lengthOf = Utils.readSizes(fileName, true);
+
+        Assert.assertTrue(lengthOf.size() == 16);
+        Assert.assertTrue(lengthOf.get("II") == 813184);
+    }
+
+    @Test
     public void testReadLines() throws Exception {
         File         file  = new ExpandResource("chr.sizes").invokeFile();
         List<String> lines = Utils.readLines(file);
 
         Assert.assertTrue(lines.size() == 16);
-
-        String fileName = new ExpandResource("chr.sizes").invoke();
-        Assert.assertTrue(fileName.contains("sizes"));
     }
 
     @Test

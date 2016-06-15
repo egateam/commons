@@ -9,7 +9,9 @@ package com.github.egateam.commons;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChrRangeTest {
@@ -95,6 +97,7 @@ public class ChrRangeTest {
         {
             new TestData2("I:1-100", new ChrRange("I", 1, 100)),
             new TestData2("I:100", new ChrRange("I", 100, 100)),
+            new TestData2("II:100-101", new ChrRange("II", 100, 101)),
         };
 
     @Test(description = "fas headers")
@@ -127,6 +130,9 @@ public class ChrRangeTest {
 
             // encode
             Assert.assertEquals(chrRange.encode(), t.header);
+            if ( !expected.containsKey("species") ) {
+                Assert.assertEquals(chrRange.encode(true), t.header);
+            }
         }
     }
 
@@ -152,4 +158,19 @@ public class ChrRangeTest {
             }
         }
     }
+
+    @Test
+    public void testReadLinesChr() throws Exception {
+        File         file  = new ExpandResource("S288c.txt").invokeFile();
+        List<String> lines = Utils.readLines(file);
+
+        Assert.assertTrue(lines.size() == 6);
+
+        for ( String s : lines ) {
+            ChrRange chrRange = new ChrRange(s);
+            Assert.assertFalse(chrRange.isEmpty());
+            Assert.assertEquals(chrRange.encode(), s);
+        }
+    }
+
 }
