@@ -38,6 +38,10 @@ public class Utils {
         return lengthOf;
     }
 
+    public static Map<String, Integer> readSizes(File file) throws Exception {
+        return readSizes(file, false);
+    }
+
     public static List<String> readLines(File file) throws Exception {
         List<String> lines = new ArrayList<>();
 
