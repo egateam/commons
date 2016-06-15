@@ -19,10 +19,18 @@ import java.util.Map;
 
 public class Utils {
 
+    private static File fileNameToFile(String value) {
+        File file = new File(value);
+        if ( !file.isFile() ) {
+            throw new RuntimeException(String.format("The input file [%s] doesn't exist.", value));
+        }
+        return file;
+    }
+
     /**
      * Returns a Map<String, Integer> as "chromosome - length" pairs
      *
-     * @param file chr.size
+     * @param file   a File object for chr.size
      * @param remove remove "chr0" from chromosome names
      * @return a Map<String, Integer>
      * @throws Exception
@@ -49,7 +57,7 @@ public class Utils {
     /**
      * Returns a Map<String, Integer> as "chromosome - length" pairs
      *
-     * @param file chr.size
+     * @param file a File object for chr.size
      * @return a Map<String, Integer>
      * @throws Exception
      */
@@ -58,8 +66,20 @@ public class Utils {
     }
 
     /**
+     * Returns a Map<String, Integer> as "chromosome - length" pairs
+     *
+     * @param fileName chr.size
+     * @return a Map<String, Integer>
+     * @throws Exception
+     */
+    public static Map<String, Integer> readSizes(String fileName) throws Exception {
+        return readSizes(fileNameToFile(fileName), false);
+    }
+
+    /**
      * Returns a List<String> (new lines removed) containing file content
-     * @param file the name of input file
+     *
+     * @param file a File object
      * @return List<String>
      * @throws Exception
      */
@@ -78,10 +98,21 @@ public class Utils {
     }
 
     /**
+     * Returns a List<String> (new lines removed) containing file content
+     *
+     * @param fileName the name of input file
+     * @return List<String>
+     * @throws Exception
+     */
+    public static List<String> readLines(String fileName) throws Exception {
+        return readLines(fileNameToFile(fileName));
+    }
+
+    /**
      * Write lines (appending new line to each strings) to file or screen
      *
      * @param fileName desired output filename. [stdout] for screen
-     * @param lines file contents.
+     * @param lines    file contents.
      * @throws Exception
      */
     public static void writeLines(String fileName, List<String> lines) throws Exception {
