@@ -38,13 +38,13 @@ public class UtilsTest {
 
     @Test
     public void testReadSizes() throws Exception {
-        String               fileName = new ExpandResource("chr.sizes").invoke();
+        String               fileName = Utils.expendResource("chr.sizes");
         Map<String, Integer> lengthOf = Utils.readSizes(fileName);
 
         Assert.assertTrue(lengthOf.size() == 16);
         Assert.assertTrue(lengthOf.get("II") == 813184);
 
-        File               file = new ExpandResource("chr.sizes").invokeFile();
+        File                 file      = Utils.expendResourceFile("chr.sizes");
         Map<String, Integer> lengthOf2 = Utils.readSizes(file);
 
         Assert.assertTrue(lengthOf2.size() == 16);
@@ -53,7 +53,7 @@ public class UtilsTest {
 
     @Test
     public void testReadSizesRemove() throws Exception {
-        File                 file     = new ExpandResource("chr.chr.sizes").invokeFile();
+        File                 file     = Utils.expendResourceFile("chr.chr.sizes");
         Map<String, Integer> lengthOf = Utils.readSizes(file, true);
 
         Assert.assertTrue(lengthOf.size() == 16);
@@ -62,12 +62,12 @@ public class UtilsTest {
 
     @Test
     public void testReadLines() throws Exception {
-        File         file  = new ExpandResource("chr.sizes").invokeFile();
+        File         file  = Utils.expendResourceFile("chr.sizes");
         List<String> lines = Utils.readLines(file);
 
         Assert.assertTrue(lines.size() == 16);
 
-        String         fileName  = new ExpandResource("chr.sizes").invoke();
+        String fileName = Utils.expendResource("chr.sizes");
         lines = Utils.readLines(fileName);
 
         Assert.assertTrue(lines.size() == 16);

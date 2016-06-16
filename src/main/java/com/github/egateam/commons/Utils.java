@@ -12,6 +12,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,4 +168,23 @@ public class Utils {
         return runlistOf;
     }
 
+    public static String expendResource(String fileName) throws Exception {
+        // http://stackoverflow.com/questions/5529532/how-to-get-a-test-resource-file
+        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
+        if ( url != null ) {
+            return new File(url.getPath()).toString();
+        } else {
+            throw new IOException(String.format("Resource file [%s] doesn't exist", fileName));
+        }
+    }
+
+    public static File expendResourceFile(String fileName) throws Exception {
+        // http://stackoverflow.com/questions/5529532/how-to-get-a-test-resource-file
+        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
+        if ( url != null ) {
+            return new File(url.getPath());
+        } else {
+            throw new IOException(String.format("Resource file [%s] doesn't exist", fileName));
+        }
+    }
 }

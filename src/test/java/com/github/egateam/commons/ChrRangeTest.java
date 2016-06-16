@@ -161,7 +161,7 @@ public class ChrRangeTest {
 
     @Test(description = "headers from file")
     public void testReadLinesChr() throws Exception {
-        File         file  = new ExpandResource("S288c.txt").invokeFile();
+        File         file  = Utils.expendResourceFile("S288c.txt");
         List<String> lines = Utils.readLines(file);
 
         Assert.assertTrue(lines.size() == 6);
