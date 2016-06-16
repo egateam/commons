@@ -119,7 +119,7 @@ public class ChrRange {
             intSpan.addPair(start, end);
         } else {
             String[] parts = header.split("\\s+", 2);
-            name = parts[0];
+            chr = parts[0];
             isEmpty = false;
         }
 
@@ -131,6 +131,17 @@ public class ChrRange {
                 if ( kv.length == 2 ) {
                     others.put(kv[0], kv[1]);
                 }
+            }
+        }
+    }
+
+    public void standardize() {
+        if ( chr != null && start != null ) {
+            if ( name == null ) {
+                name = "target";
+            }
+            if ( strand == null ) {
+                strand = "+";
             }
         }
     }

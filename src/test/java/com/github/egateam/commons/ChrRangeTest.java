@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ChrRangeTest {
     private static class TestData {
@@ -66,21 +67,21 @@ public class ChrRangeTest {
                 put("start", "100");
                 put("end", "100");
             }}),
-            new TestData("S288c", new HashMap<String, String>() {{
-                put("name", "S288c");
+            new TestData("IV", new HashMap<String, String>() {{
+                put("chr", "IV");
             }}),
         };
 
     private static final TestData[] faTests =
         {
-            new TestData("S288c", new HashMap<String, String>() {{
-                put("name", "S288c");
+            new TestData("IV", new HashMap<String, String>() {{
+                put("chr", "IV");
             }}),
             new TestData("S288c The baker's yeast", new HashMap<String, String>() {{
-                put("name", "S288c");
+                put("chr", "S288c");
             }}),
             new TestData("1:-100", new HashMap<String, String>() {{
-                put("name", "1:-100");
+                put("chr", "1:-100");
             }}),
         };
 
@@ -150,7 +151,13 @@ public class ChrRangeTest {
             ChrRange chrRange = new ChrRange(t.header);
             ChrRange expected = t.expected;
 
-            Assert.assertEquals(chrRange.toString(), expected.toString());
+            Assert.assertTrue(Objects.equals(chrRange.toString(), expected.toString()));
+
+            chrRange.standardize();
+            Assert.assertFalse(Objects.equals(chrRange.toString(), expected.toString()));
+
+            expected.standardize();
+            Assert.assertTrue(Objects.equals(chrRange.toString(), expected.toString()));
         }
     }
 
