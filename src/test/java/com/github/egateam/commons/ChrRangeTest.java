@@ -6,6 +6,7 @@
 
 package com.github.egateam.commons;
 
+import com.github.egateam.IntSpan;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -29,41 +30,41 @@ public class ChrRangeTest {
         {
             new TestData("S288c.I(+):27070-29557|species=yeast", new HashMap<String, String>() {{
                 put("name", "S288c");
-                put("chrName", "I");
-                put("chrStrand", "+");
-                put("chrStart", "27070");
-                put("chrEnd", "29557");
+                put("chr", "I");
+                put("strand", "+");
+                put("start", "27070");
+                put("end", "29557");
                 put("species", "yeast");
             }}),
             new TestData("S288c.I(+):27070-29557", new HashMap<String, String>() {{
                 put("name", "S288c");
-                put("chrName", "I");
-                put("chrStrand", "+");
-                put("chrStart", "27070");
-                put("chrEnd", "29557");
+                put("chr", "I");
+                put("strand", "+");
+                put("start", "27070");
+                put("end", "29557");
             }}),
             new TestData("I(+):90-150", new HashMap<String, String>() {{
-                put("chrName", "I");
-                put("chrStrand", "+");
-                put("chrStart", "90");
-                put("chrEnd", "150");
+                put("chr", "I");
+                put("strand", "+");
+                put("start", "90");
+                put("end", "150");
             }}),
             new TestData("S288c.I(-):190-200", new HashMap<String, String>() {{
                 put("name", "S288c");
-                put("chrName", "I");
-                put("chrStrand", "-");
-                put("chrStart", "190");
-                put("chrEnd", "200");
+                put("chr", "I");
+                put("strand", "-");
+                put("start", "190");
+                put("end", "200");
             }}),
             new TestData("I:1-100", new HashMap<String, String>() {{
-                put("chrName", "I");
-                put("chrStart", "1");
-                put("chrEnd", "100");
+                put("chr", "I");
+                put("start", "1");
+                put("end", "100");
             }}),
             new TestData("I:100", new HashMap<String, String>() {{
-                put("chrName", "I");
-                put("chrStart", "100");
-                put("chrEnd", "100");
+                put("chr", "I");
+                put("start", "100");
+                put("end", "100");
             }}),
             new TestData("S288c", new HashMap<String, String>() {{
                 put("name", "S288c");
@@ -112,17 +113,24 @@ public class ChrRangeTest {
             if ( expected.containsKey("name") ) {
                 Assert.assertEquals(chrRange.getName(), expected.get("name"));
             }
-            if ( expected.containsKey("chrName") ) {
-                Assert.assertEquals(chrRange.getChrName(), expected.get("chrName"));
+            if ( expected.containsKey("chr") ) {
+                Assert.assertEquals(chrRange.getChr(), expected.get("chr"));
             }
-            if ( expected.containsKey("chrStrand") ) {
-                Assert.assertEquals(chrRange.getChrStrand(), expected.get("chrStrand"));
+            if ( expected.containsKey("strand") ) {
+                Assert.assertEquals(chrRange.getStrand(), expected.get("strand"));
             }
-            if ( expected.containsKey("chrStart") ) {
-                Assert.assertEquals(chrRange.getChrStart(), Integer.parseInt(expected.get("chrStart")));
+            if ( expected.containsKey("start") ) {
+                Assert.assertEquals(chrRange.getStart(), Integer.parseInt(expected.get("start")));
             }
-            if ( expected.containsKey("chrEnd") ) {
-                Assert.assertEquals(chrRange.getChrEnd(), Integer.parseInt(expected.get("chrEnd")));
+            if ( expected.containsKey("end") ) {
+                Assert.assertEquals(chrRange.getEnd(), Integer.parseInt(expected.get("end")));
+
+                IntSpan intSpan = new IntSpan();
+                intSpan.addPair(
+                    Integer.parseInt(expected.get("start")),
+                    Integer.parseInt(expected.get("end"))
+                );
+                Assert.assertEquals(chrRange.getIntSpan().toString(), intSpan.toString());
             }
             if ( expected.containsKey("species") ) {
                 Assert.assertEquals(chrRange.getOthers().get("species"), expected.get("species"));

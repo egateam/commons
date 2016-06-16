@@ -9,6 +9,8 @@
 
 package com.github.egateam.commons;
 
+import com.github.egateam.IntSpan;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,33 +20,40 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("WeakerAccess")
 public class ChrRange {
+
     private String  name;
-    private String  chrName;
-    private String  chrStrand;
-    private Integer chrStart;
-    private Integer chrEnd;
+    private String  chr;
+    private String  strand;
+    private Integer start;
+    private Integer end;
     @SuppressWarnings("CanBeFinal")
-    private Map<String, String> others  = new HashMap<>();
-    private boolean             isEmpty = true;
+    private Map<String, String> others = new HashMap<>();
+
+    private IntSpan intSpan = new IntSpan();
+    private boolean isEmpty = true;
 
     public String getName() {
         return name;
     }
 
-    public String getChrName() {
-        return chrName;
+    public String getChr() {
+        return chr;
     }
 
-    public String getChrStrand() {
-        return chrStrand;
+    public String getStrand() {
+        return strand;
     }
 
-    public int getChrStart() {
-        return chrStart;
+    public int getStart() {
+        return start;
     }
 
-    public int getChrEnd() {
-        return chrEnd;
+    public int getEnd() {
+        return end;
+    }
+
+    public IntSpan getIntSpan() {
+        return intSpan;
     }
 
     public Map<String, String> getOthers() {
@@ -59,10 +68,18 @@ public class ChrRange {
         decode(header);
     }
 
-    public ChrRange(String chrName, int chrStart, int chrEnd) {
-        this.chrName = chrName;
-        this.chrStart = chrStart;
-        this.chrEnd = chrEnd;
+    public ChrRange(String chr, int start, int end) throws NumberFormatException {
+        if ( start <= 0 || end <= 0 ) {
+            throw new NumberFormatException("Positions on chromosomes should larger than 0");
+        }
+        if ( start > end ) {
+            throw new NumberFormatException("Start shouldn't larger than End");
+        }
+
+        this.chr = chr;
+        this.start = start;
+        this.end = end;
+        this.intSpan.addPair(start, end);
         isEmpty = false;
     }
 
@@ -77,30 +94,31 @@ public class ChrRange {
     private void decode(String header) throws RuntimeException {
         Pattern p = Pattern.compile("(?xi)" +
             "(?:(?<name>[\\w_]+)\\.)?" +
-            "(?<chrName>[\\w-]+)" +
-            "(?:\\((?<chrStrand>.+)\\))?" +
+            "(?<chr>[\\w-]+)" +
+            "(?:\\((?<strand>.+)\\))?" +
             "[:]" +
-            "(?<chrStart>\\d+)" +
+            "(?<start>\\d+)" +
             "[_\\-]?" +
-            "(?<chrEnd>\\d+)?"
+            "(?<end>\\d+)?"
         );
         Matcher m = p.matcher(header);
 
         if ( m.find() ) {
             name = m.group("name");
-            chrName = m.group("chrName");
-            chrStrand = m.group("chrStrand");
-            chrStart = tryParse(m.group("chrStart"));
-            chrEnd = tryParse(m.group("chrEnd"));
+            chr = m.group("chr");
+            strand = m.group("strand");
+            start = tryParse(m.group("start"));
+            end = tryParse(m.group("end"));
             isEmpty = false;
         }
 
-        if ( chrName != null && chrStart != null ) {
-            if ( chrEnd == null ) {
-                chrEnd = chrStart;
+        if ( chr != null && start != null ) {
+            if ( end == null ) {
+                end = start;
             }
+            intSpan.addPair(start, end);
         } else {
-            String[] parts = header.split("\\s+");
+            String[] parts = header.split("\\s+", 2);
             name = parts[0];
             isEmpty = false;
         }
@@ -122,21 +140,21 @@ public class ChrRange {
 
         if ( name != null ) {
             header += name;
-            if ( chrName != null ) {
-                header += "." + chrName;
+            if ( chr != null ) {
+                header += "." + chr;
             }
-        } else if ( chrName != null ) {
-            header += chrName;
+        } else if ( chr != null ) {
+            header += chr;
         }
 
-        if ( chrStrand != null ) {
-            header += "(" + chrStrand + ")";
+        if ( strand != null ) {
+            header += "(" + strand + ")";
         }
 
-        if ( chrStart != null ) {
-            header += ":" + chrStart;
-            if ( !chrStart.equals(chrEnd) ) {
-                header += "-" + chrEnd;
+        if ( start != null ) {
+            header += ":" + start;
+            if ( !start.equals(end) ) {
+                header += "-" + end;
             }
         }
 
