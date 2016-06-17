@@ -32,6 +32,8 @@ public class ChrRange {
     private IntSpan intSpan = new IntSpan();
     private boolean isEmpty = true;
 
+    private boolean isValid = false;
+
     public String getName() {
         return name;
     }
@@ -64,6 +66,10 @@ public class ChrRange {
         return isEmpty;
     }
 
+    public boolean isValid() {
+        return isValid;
+    }
+
     public ChrRange(String header) throws RuntimeException {
         decode(header);
     }
@@ -81,6 +87,7 @@ public class ChrRange {
         this.end = end;
         this.intSpan.addPair(start, end);
         isEmpty = false;
+        isValid = true;
     }
 
     private static Integer tryParse(String text) {
@@ -110,6 +117,7 @@ public class ChrRange {
             start = tryParse(m.group("start"));
             end = tryParse(m.group("end"));
             isEmpty = false;
+            isValid = true;
         }
 
         if ( chr != null && start != null ) {
@@ -121,6 +129,7 @@ public class ChrRange {
             String[] parts = header.split("\\s+", 2);
             chr = parts[0];
             isEmpty = false;
+            isValid = false;
         }
 
         if ( header.contains("|") ) {

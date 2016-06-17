@@ -67,9 +67,6 @@ public class ChrRangeTest {
                 put("start", "100");
                 put("end", "100");
             }}),
-            new TestData("IV", new HashMap<String, String>() {{
-                put("chr", "IV");
-            }}),
         };
 
     private static final TestData[] faTests =
@@ -109,6 +106,7 @@ public class ChrRangeTest {
             Map<String, String> expected = t.expected;
 
             Assert.assertFalse(chrRange.isEmpty());
+            Assert.assertTrue(chrRange.isValid());
 
             // decode
             if ( expected.containsKey("name") ) {
