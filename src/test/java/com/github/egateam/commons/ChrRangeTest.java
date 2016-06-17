@@ -136,9 +136,9 @@ public class ChrRangeTest {
             }
 
             // encode
-            Assert.assertEquals(chrRange.encode(), t.header);
+            Assert.assertEquals(chrRange.toString(), t.header);
             if ( !expected.containsKey("species") ) {
-                Assert.assertEquals(chrRange.encode(true), t.header);
+                Assert.assertEquals(chrRange.toString(), t.header);
             }
         }
     }
@@ -182,7 +182,7 @@ public class ChrRangeTest {
         for ( String s : lines ) {
             ChrRange chrRange = new ChrRange(s);
             Assert.assertFalse(chrRange.isEmpty());
-            Assert.assertEquals(chrRange.encode(), s);
+            Assert.assertEquals(chrRange.toString(), s);
         }
     }
 

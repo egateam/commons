@@ -11,10 +11,7 @@ package com.github.egateam.commons;
 
 import com.github.egateam.IntSpan;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -144,18 +141,29 @@ public class ChrRange {
         }
     }
 
-    public void standardize() {
+    public void standardize(boolean onlyEssential) {
         if ( chr != null && start != null ) {
-            if ( name == null ) {
-                name = "target";
-            }
             if ( strand == null ) {
                 strand = "+";
             }
+            if ( Objects.equals(strand, "1") ) {
+                strand = "+";
+            }
+            if ( Objects.equals(strand, "-1") ) {
+                strand = "-";
+            }
+        }
+
+        if ( onlyEssential ) {
+            others = new HashMap<>();
         }
     }
 
-    public String encode(boolean onlyEssential) {
+    public void standardize() {
+        standardize(false);
+    }
+
+    private String encode() {
         String header = "";
 
         if ( name != null ) {
@@ -178,7 +186,7 @@ public class ChrRange {
             }
         }
 
-        if ( !onlyEssential && !others.isEmpty() ) {
+        if ( !others.isEmpty() ) {
             List<String> parts = new ArrayList<>();
             for ( Map.Entry<String, String> entry : others.entrySet() ) {
                 parts.add(entry.getKey() + "=" + entry.getValue());
@@ -201,10 +209,6 @@ public class ChrRange {
         }
 
         return header;
-    }
-
-    public String encode() {
-        return encode(false);
     }
 
     @Override
