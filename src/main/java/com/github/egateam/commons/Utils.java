@@ -8,11 +8,9 @@ package com.github.egateam.commons;
 
 import com.github.egateam.IntSpan;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +31,14 @@ public class Utils {
     /**
      * Returns a Map as "chromosome - length" pairs
      *
-     * @param file   a File object for chr.size
+     * @param fileName chr.size
      * @param remove remove "chr0" from chromosome names
      * @return a Map
      * @throws Exception
      */
-    public static Map<String, Integer> readSizes(File file, boolean remove) throws Exception {
+    public static Map<String, Integer> readSizes(String fileName, boolean remove) throws Exception {
         HashMap<String, Integer> lengthOf = new HashMap<>();
+        File file = fileNameToFile(fileName);
 
         try ( BufferedReader reader = new BufferedReader(new FileReader(file)) ) {
             String line;
@@ -60,44 +59,12 @@ public class Utils {
     /**
      * Returns a Map as "chromosome - length" pairs
      *
-     * @param file a File object for chr.size
-     * @return a Map
-     * @throws Exception
-     */
-    public static Map<String, Integer> readSizes(File file) throws Exception {
-        return readSizes(file, false);
-    }
-
-    /**
-     * Returns a Map as "chromosome - length" pairs
-     *
      * @param fileName chr.size
      * @return a Map
      * @throws Exception
      */
     public static Map<String, Integer> readSizes(String fileName) throws Exception {
-        return readSizes(fileNameToFile(fileName), false);
-    }
-
-    /**
-     * Returns a List (new lines removed) containing file content
-     *
-     * @param file a File object
-     * @return List
-     * @throws Exception
-     */
-    public static List<String> readLines(File file) throws Exception {
-        List<String> lines = new ArrayList<>();
-
-        try ( BufferedReader reader = new BufferedReader(new FileReader(file)) ) {
-            String line;
-            while ( (line = reader.readLine()) != null ) {
-                line = line.trim();
-                lines.add(line);
-            }
-        }
-
-        return lines;
+        return readSizes(fileName, false);
     }
 
     /**
@@ -108,7 +75,13 @@ public class Utils {
      * @throws Exception
      */
     public static List<String> readLines(String fileName) throws Exception {
-        return readLines(fileNameToFile(fileName));
+        List<String> lines;
+        if ( fileName.toLowerCase().equals("stdin") ) {
+            lines = IOUtils.readLines(System.in);
+        } else {
+            lines = FileUtils.readLines(new File(fileName));
+        }
+        return lines;
     }
 
     /**
@@ -119,7 +92,7 @@ public class Utils {
      * @throws Exception
      */
     public static void writeLines(String fileName, List<String> lines) throws Exception {
-        if ( fileName.equals("stdout") )
+        if ( fileName.toLowerCase().equals("stdout") )
             for ( String line : lines ) {
                 System.out.println(line);
             }
@@ -173,16 +146,6 @@ public class Utils {
         URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
         if ( url != null ) {
             return new File(url.getPath()).toString();
-        } else {
-            throw new IOException(String.format("Resource file [%s] doesn't exist", fileName));
-        }
-    }
-
-    public static File expendResourceFile(String fileName) throws Exception {
-        // http://stackoverflow.com/questions/5529532/how-to-get-a-test-resource-file
-        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-        if ( url != null ) {
-            return new File(url.getPath());
         } else {
             throw new IOException(String.format("Resource file [%s] doesn't exist", fileName));
         }
