@@ -69,36 +69,6 @@ public class ChrRangeTest {
             }}),
         };
 
-    private static final TestData[] faTests =
-        {
-            new TestData("IV", new HashMap<String, String>() {{
-                put("chr", "IV");
-            }}),
-            new TestData("S288c The baker's yeast", new HashMap<String, String>() {{
-                put("chr", "S288c");
-            }}),
-            new TestData("1:-100", new HashMap<String, String>() {{
-                put("chr", "1:-100");
-            }}),
-        };
-
-    private static class TestData2 {
-        final String   header;
-        final ChrRange expected;
-
-        TestData2(String header, ChrRange expected) {
-            this.header = header;
-            this.expected = expected;
-        }
-    }
-
-    private static final TestData2[] fasTests2 =
-        {
-            new TestData2("I:1-100", new ChrRange("I", 1, 100)),
-            new TestData2("I:100", new ChrRange("I", 100, 100)),
-            new TestData2("II:100-101", new ChrRange("II", 100, 101)),
-        };
-
     @Test(description = "fas headers")
     public void testFasHeader() throws Exception {
         for ( TestData t : fasTests ) {
@@ -143,6 +113,23 @@ public class ChrRangeTest {
         }
     }
 
+    private static class TestData2 {
+        final String   header;
+        final ChrRange expected;
+
+        TestData2(String header, ChrRange expected) {
+            this.header = header;
+            this.expected = expected;
+        }
+    }
+
+    private static final TestData2[] fasTests2 =
+        {
+            new TestData2("I:1-100", new ChrRange("I", 1, 100)),
+            new TestData2("I:100", new ChrRange("I", 100, 100)),
+            new TestData2("II:100-101", new ChrRange("II", 100, 101)),
+        };
+
     @Test(description = "fas headers take 2")
     public void testFasHeader2() throws Exception {
         for ( TestData2 t : fasTests2 ) {
@@ -159,6 +146,19 @@ public class ChrRangeTest {
         }
     }
 
+    private static final TestData[] faTests =
+        {
+            new TestData("IV", new HashMap<String, String>() {{
+                put("chr", "IV");
+            }}),
+            new TestData("S288c The baker's yeast", new HashMap<String, String>() {{
+                put("chr", "S288c");
+            }}),
+            new TestData("1:-100", new HashMap<String, String>() {{
+                put("chr", "1:-100");
+            }}),
+        };
+
     @Test(description = "fa headers")
     public void testFaHeader() throws Exception {
         for ( TestData t : faTests ) {
@@ -166,8 +166,8 @@ public class ChrRangeTest {
             Map<String, String> expected = t.expected;
 
             // decode
-            if ( expected.containsKey("name") ) {
-                Assert.assertEquals(chrRange.getName(), expected.get("name"));
+            if ( expected.containsKey("chr") ) {
+                Assert.assertEquals(chrRange.getChr(), expected.get("chr"));
             }
         }
     }
