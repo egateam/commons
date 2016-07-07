@@ -74,6 +74,7 @@ public class ChrRangeTest {
         for ( TestData t : fasTests ) {
             ChrRange            chrRange = new ChrRange(t.header);
             Map<String, String> expected = t.expected;
+            ChrRange            newChrRange = new ChrRange("DUMMY");
 
             Assert.assertFalse(chrRange.isEmpty());
             Assert.assertTrue(chrRange.isValid());
@@ -81,18 +82,23 @@ public class ChrRangeTest {
             // decode
             if ( expected.containsKey("name") ) {
                 Assert.assertEquals(chrRange.getName(), expected.get("name"));
+                newChrRange.setName(expected.get("name"));
             }
             if ( expected.containsKey("chr") ) {
                 Assert.assertEquals(chrRange.getChr(), expected.get("chr"));
+                newChrRange.setChr(expected.get("chr"));
             }
             if ( expected.containsKey("strand") ) {
                 Assert.assertEquals(chrRange.getStrand(), expected.get("strand"));
+                newChrRange.setStrand(expected.get("strand"));
             }
             if ( expected.containsKey("start") ) {
                 Assert.assertEquals(chrRange.getStart(), Integer.parseInt(expected.get("start")));
+                newChrRange.setStart(Integer.parseInt(expected.get("start")));
             }
             if ( expected.containsKey("end") ) {
                 Assert.assertEquals(chrRange.getEnd(), Integer.parseInt(expected.get("end")));
+                newChrRange.setEnd(Integer.parseInt(expected.get("end")));
 
                 IntSpan intSpan = new IntSpan();
                 intSpan.addPair(
@@ -109,6 +115,7 @@ public class ChrRangeTest {
             Assert.assertEquals(chrRange.toString(), t.header);
             if ( !expected.containsKey("species") ) {
                 Assert.assertEquals(chrRange.toString(), t.header);
+                Assert.assertEquals(newChrRange.toString(), t.header);
             }
         }
     }
