@@ -72,8 +72,8 @@ public class ChrRangeTest {
     @Test(description = "fas headers")
     public void testFasHeader() throws Exception {
         for ( TestData t : fasTests ) {
-            ChrRange            chrRange = new ChrRange(t.header);
-            Map<String, String> expected = t.expected;
+            ChrRange            chrRange    = new ChrRange(t.header);
+            Map<String, String> expected    = t.expected;
             ChrRange            newChrRange = new ChrRange("DUMMY");
 
             Assert.assertFalse(chrRange.isEmpty());
@@ -184,7 +184,7 @@ public class ChrRangeTest {
         String       fileName = Utils.expendResource("S288c.txt");
         List<String> lines    = Utils.readLines(fileName);
 
-        Assert.assertTrue(lines.size() == 6);
+        Assert.assertEquals(lines.size(), 7);
 
         for ( String s : lines ) {
             ChrRange chrRange = new ChrRange(s);

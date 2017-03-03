@@ -118,7 +118,7 @@ public class ChrRange {
     private void decode(String header) throws RuntimeException {
         Pattern p = Pattern.compile("(?xi)" +
             "(?:(?<name>[\\w_]+)\\.)?" +
-            "(?<chr>[\\w-]+)" +
+            "(?<chr>[\\w/-]+)" +
             "(?:\\((?<strand>.+)\\))?" +
             "[:]" +
             "(?<start>\\d+)" +
