@@ -34,13 +34,13 @@ public class Utils {
      * Returns a Map as "chromosome - length" pairs
      *
      * @param fileName chr.size
-     * @param remove remove "chr0" from chromosome names
+     * @param remove   remove "chr0" from chromosome names
      * @return a Map
      * @throws Exception
      */
     public static Map<String, Integer> readSizes(String fileName, boolean remove) throws Exception {
         HashMap<String, Integer> lengthOf = new HashMap<>();
-        File file = fileNameToFile(fileName);
+        File                     file     = fileNameToFile(fileName);
 
         try ( BufferedReader reader = new BufferedReader(new FileReader(file)) ) {
             String line;
