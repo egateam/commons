@@ -143,6 +143,11 @@ public class Utils {
         return runlistOf;
     }
 
+    public static String[] splitTsvFields(String line ) {
+        line = line.trim();
+        return line.split("\\t", -1);
+    }
+
     public static String expendResource(String fileName) throws Exception {
         // http://stackoverflow.com/questions/5529532/how-to-get-a-test-resource-file
         URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
