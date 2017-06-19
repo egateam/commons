@@ -10,8 +10,6 @@ package com.github.egateam.commons;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Objects;
-
 public class OvlpTest {
 
     private static class TestData {
@@ -24,7 +22,7 @@ public class OvlpTest {
         }
     }
 
-    private static final TestData[] lineTests =
+    private static final TestData[] lineOvlpTests =
         {
             new TestData(
                 "anchor/282/0_2680\tanchor/306/0_2073\t36\t1.000\t0\t2644\t2680\t2680\t0\t0\t36\t2073\toverlap",
@@ -36,13 +34,32 @@ public class OvlpTest {
             ),
         };
 
-    @Test(description = "tsv lines")
-    public void testLine() throws Exception {
-        for ( TestData t : lineTests ) {
+    @Test(description = "ovlp lines")
+    public void testOvlpLine() throws Exception {
+        for ( TestData t : lineOvlpTests ) {
             Ovlp ovlp     = new Ovlp(t.line);
             Ovlp expected = t.expected;
 
             Assert.assertEquals(ovlp.toString(), t.line);
+            Assert.assertEquals(ovlp.toString(), expected.toString());
+        }
+    }
+
+    private static final TestData[] pafLineTests =
+        {
+            new TestData(
+                "long/5059/0_25030\t25030\t6400\t14738\t+\tlong/9413/0_8928\t8928\t188\t8927\t1427\t8739\t255\tcm:i:168",
+                new Ovlp("long/5059/0_25030", "long/9413/0_8928", 8739, 0.163, 0, 6401, 14739, 25030, 0, 189, 8928, 8928, "overlap")
+            ),
+        };
+
+    @Test(description = "paf lines")
+    public void testPafLine() throws Exception {
+        for ( TestData t : pafLineTests ) {
+            Ovlp ovlp     = new Ovlp();
+            ovlp.parsePafLine(t.line);
+            Ovlp expected = t.expected;
+
             Assert.assertEquals(ovlp.toString(), expected.toString());
         }
     }
