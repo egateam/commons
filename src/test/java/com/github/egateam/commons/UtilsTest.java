@@ -106,6 +106,13 @@ public class UtilsTest {
 
     }
 
+    @Test
+    public void testBegEnd() {
+        int[]   begEnd     = Utils.begEnd(10, 1);
+        Assert.assertEquals(begEnd[0], 1);
+        Assert.assertEquals(begEnd[1], 10);
+    }
+
     @AfterMethod
     public void afterTest() {
         // Put back the standard out.
