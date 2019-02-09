@@ -45,6 +45,8 @@
         <developer>
             <name>Qiang Wang</name>
             <email>wang-q@outlook.com</email>
+            <url>https://github.com/wang-q</url>
+            <id>wang-q</id>
         </developer>
     </developers>
 
@@ -112,6 +114,23 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Creating site for ${project.version}</message>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
